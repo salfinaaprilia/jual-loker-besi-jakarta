@@ -1188,3 +1188,18 @@ html{scroll-behavior:smooth}
 /* label merek di detail produk: biru untuk Zeco & Vivorti */
 .badge.z,.badge.v{background:#1d4fe0;color:#fff}
 .hx-f h2.hx-f-t{font-size:17px;letter-spacing:-.01em;margin:0 0 6px;line-height:1.3}
+
+/* ===== struktur judul (SEO) — tampilan dipertahankan ===== */
+.hx-f .hx-f-t{font-family:Poppins,Manrope,sans-serif;font-weight:600;font-size:17px;letter-spacing:-.01em;line-height:1.3;margin:0 0 6px;color:var(--fg)}
+.chal-l .chal-title{font-family:Poppins,Manrope,sans-serif;font-weight:600;font-size:clamp(26px,3.2vw,38px);line-height:1.2;letter-spacing:-.02em;margin:14px 0 18px;color:var(--fg)}
+.loc-body .loc-t{font-family:Poppins,Manrope,sans-serif;font-weight:600;font-size:clamp(19px,2vw,24px);line-height:1.12;letter-spacing:-.02em;margin:0;color:#fff}
+@media(max-width:619px){.loc-body .loc-t{font-size:14.5px;line-height:1.25}}
+.faq summary .faq-q{font:inherit;letter-spacing:normal;margin:0;color:inherit}
+.ct-body h2.ct-name{font-size:18px;line-height:1.3;margin:0}
+.ct-body h2.ct-name a{color:inherit}
+@media(max-width:599px){.ct-body h2.ct-name{font-size:15px}}
+h2.ft-t{font-family:Manrope,system-ui,sans-serif}
+.chal-l p.chal-title{color:var(--fg);max-width:none}
+.port-body h2.port-t{font-size:21px;margin:0}
+.sl h2.sl-t{font-size:15.5px;line-height:1.45;font-weight:600;margin:0}
+.sl:hover h2.sl-t{color:var(--brand)}
