@@ -22,9 +22,17 @@
 
   /* header & progress */
   const hdr = $("#hdr");
+  /* dibatasi 1x per frame: baca posisi dulu, baru ubah kelas (hindari forced reflow) */
+  let ticking = false, wasStuck = null;
   const onScroll = () => {
-    hdr?.classList.toggle("stuck", scrollY > 12);
-    steps();
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      steps();
+      const stuck = scrollY > 12;
+      if (stuck !== wasStuck) { wasStuck = stuck; hdr?.classList.toggle("stuck", stuck); }
+    });
   };
   addEventListener("scroll", onScroll, { passive: true });
 
@@ -44,14 +52,25 @@
     const tick = t => { const p = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3))); if (p < 1) requestAnimationFrame(tick); };
     requestAnimationFrame(tick);
   };
+  /* animasi saat scroll turun & naik (muncul lagi setiap kali masuk layar) */
+  const AUTO = ".sec-h > *, .ct-head > *, .ct-card, .port, .bc, .loc, .pdx-card, .pdx-more-h, .pdx-chips, .pdx-more-nav, .pdx-cta-in > *, .post-head, .post-cover, .post-body > *, .faq details, .ft-grid > *, .chal-list li, .zv-c, .bs-nav, .cinfo > *";
+  if (!reduce) $$(AUTO).forEach(el => { if (!el.closest(".rv") && !el.querySelector(".rv")) el.classList.add("rv"); });
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if (!e.isIntersecting) return;
-    e.target.classList.add("in");
-    $$("[data-count]", e.target).forEach(countUp);
-    if (e.target.matches("[data-count]")) countUp(e.target);
-    if (e.target.classList.contains("art")) e.target.classList.add("play");
-    io.unobserve(e.target);
-  }), { threshold: .15, rootMargin: "0px 0px -6% 0px" });
+    const el = e.target;
+    if (e.isIntersecting) {
+      el.classList.add("in");
+      if (!el.dataset.counted) {
+        el.dataset.counted = 1;
+        $$("[data-count]", el).forEach(countUp);
+        if (el.matches("[data-count]")) countUp(el);
+      }
+      if (el.classList.contains("art")) el.classList.add("play");
+    } else if (!reduce && el.classList.contains("rv")) {
+      /* keluar layar: siapkan arah masuk berikutnya */
+      el.dataset.from = e.boundingClientRect.top < 0 ? "above" : "below";
+      el.classList.remove("in");
+    }
+  }), { threshold: 0, rootMargin: "0px" });
   $$(".rv,.step").forEach(el => io.observe(el));
   $$(".stats").forEach(el => io.observe(el));
 
@@ -123,7 +142,7 @@
       });
     }));
     const init = () => place($("button.on", fbar));
-    init(); addEventListener("resize", init); document.fonts?.ready.then(init);
+    requestAnimationFrame(init); addEventListener("resize", () => requestAnimationFrame(init)); document.fonts?.ready.then(init);
     const q = new URLSearchParams(location.search).get("brand");
     if (q) $(`button[data-f="${q}"]`, fbar)?.click();
   }

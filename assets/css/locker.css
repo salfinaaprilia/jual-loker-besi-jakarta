@@ -1152,3 +1152,39 @@ dialog[open] .m{animation:pop .5s var(--ease)}
  .phx-vis--z .hx-back img{height:92%!important;width:auto;min-width:0;max-width:calc((100% - 50px)/6);object-fit:contain;filter:drop-shadow(0 12px 14px rgba(0,0,0,.45))}
 }
 @media(max-width:959px){.phx{min-height:auto}}
+/* animasi muncul: lebih cepat & halus (konten tidak sempat kosong) */
+.js .rv{transform:translateY(14px);transition:opacity .45s var(--ease),transform .45s var(--ease);transition-delay:calc(var(--d,0s) * .4)}
+.js .rv.l,.js .rv.r{transform:translateY(14px)}
+.js .rv.z{transform:scale(.97)}
+.js .rv.in{opacity:1;transform:none}
+.hero h1 .w>span{animation-duration:.6s}
+@media(prefers-reduced-motion:reduce){.js .rv{opacity:1!important;transform:none!important;transition:none!important}}
+/* aksesibilitas: fokus keyboard yang jelas */
+:focus-visible{outline:3px solid #f59e0b;outline-offset:3px;border-radius:6px}
+.btn:focus-visible,.ct-chip:focus-visible,.pdx-chips a:focus-visible{outline-offset:4px}
+/* kontras teks kecil */
+.tagp{color:#1741b8}
+.pdx-more .pdx-eyebrow,.pdx-more-nav a{color:#0f5a94}
+
+/* arah animasi: dari bawah saat scroll turun, dari atas saat scroll naik */
+.js .rv[data-from=below]{transform:translateY(22px)}
+.js .rv[data-from=above]{transform:translateY(-22px)}
+.js .rv.in{opacity:1;transform:none}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* judul maksimal 2 baris (kecuali Tantangan): area judul dilebarkan */
+.sec-h{max-width:1000px}
+.sec-h h2,.ct-head h2,.pdx-more-h h2{max-width:none}
+.ct-head{max-width:1000px}
+.pdx-cta-in{max-width:1000px}
+.pdx-cta h2{max-width:none}
+/* deskripsi CTA: 3 baris di desktop */
+.pdx-cta p{max-width:640px}
+/* judul CTA: 2 baris */
+.pdx-cta h2{max-width:24ch;text-wrap:balance}
+/* judul tertentu dibuat 2 baris */
+.sec-h h2.h2-2{max-width:22ch;margin-inline:auto;text-wrap:balance}
+.sec-h p.p-3{max-width:600px;margin-inline:auto}
+/* label merek di detail produk: biru untuk Zeco & Vivorti */
+.badge.z,.badge.v{background:#1d4fe0;color:#fff}
+.hx-f h2.hx-f-t{font-size:17px;letter-spacing:-.01em;margin:0 0 6px;line-height:1.3}
